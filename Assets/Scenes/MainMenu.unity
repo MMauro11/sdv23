@@ -1035,10 +1035,22 @@ MonoBehaviour:
   m_MinValue: 0.0001
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: 0.8
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 597060997}
+        m_TargetAssemblyTypeName: SetVolume2, Assembly-CSharp
+        m_MethodName: SetLevel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &597060997
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1048,7 +1060,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 597060994}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4c85f70fdc761d05b1b5eeff04fbc01, type: 3}
+  m_Script: {fileID: 11500000, guid: c37d6962f3276ee4b8247be149579209, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Mixer: {fileID: 24100000, guid: 7450457422052788aa2b737c256e15f3, type: 2}
