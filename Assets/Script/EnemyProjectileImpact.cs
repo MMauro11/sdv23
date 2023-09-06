@@ -4,7 +4,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class EnemyProjectileImpact : PlayerProjectileImpact {
+public class EnemyProjectileImpact : MonoBehaviour {
 
     private float damage = 1, projSpeed = 1;
     private bool isEnemy;

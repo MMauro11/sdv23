@@ -3,19 +3,22 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting.Dependencies.Sqlite;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class EntityStats : MonoBehaviour
 {
     public float health=1, speed=1;
     //public GameObject ExplosionAnim;
     public GameObject bullet;
+    public Slider healthbar;
     public float fireRate = 1;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        Slider healthbar = gameObject.FindGameObjectWithTag("Health");
+        healthbar.highValue = health;
     }
 
     // Update is called once per frame
@@ -32,8 +35,8 @@ public class EntityStats : MonoBehaviour
     }
 
     public void Hit(float damage){
-        health=health-damage;
-        if (health<=0){
+        healthbar.value=healthbar.value-damage;
+        if (healthbar.value<=0){
             Death();
         }
     }
@@ -50,7 +53,7 @@ public class EntityStats : MonoBehaviour
     void Shoot(){
         GameObject target = GameObject.FindGameObjectWithTag("Enemy");
         GameObject proj = Instantiate(bullet, transform.position,transform.rotation);
-        Vector2 direction = (target.transform.position - transform.position).normalized;
+        Vector3 direction = ((target.transform.position)-(proj.transform.position)).normalized;
         proj.GetComponent<PlayerProjectileImpact>().Setup(direction);
     }
 

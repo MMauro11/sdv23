@@ -7,18 +7,18 @@ using UnityEngine.UIElements;
 
 public class PlayerProjectileImpact : MonoBehaviour
 {
-    private float damage = 1, projSpeed = 10f;
+    private float damage = 1, projSpeed = 1f;
     private bool isEnemy;
     EntityStats enemy;
-    private Vector2 shootDir;
+    private Vector3 shootDir;
     // Start is called before the first frame update
     void Start()
     {
         gameObject.tag = transform.root.tag;
     }
 
-    public void Setup(Vector2 direction) {
-        shootDir = direction;
+    public void Setup(Vector3 direction) {
+        this.shootDir = direction;
     }
 
     // Update is called once per frame
@@ -31,7 +31,7 @@ public class PlayerProjectileImpact : MonoBehaviour
         //position = new Vector2(position.x, position.y + projSpeed * Time.deltaTime);
 
         // Update the bullet's position
-        shootDir = new Vector2(shootDir.x, shootDir.y + projSpeed * Time.deltaTime);
+        shootDir = new Vector3(shootDir.x, shootDir.y + projSpeed * Time.deltaTime);
 
         // Update the bullet's position
         transform.position = shootDir;
