@@ -6,18 +6,33 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class PlayerProjectileImpact : MonoBehaviour
+public class ProjectileImpact : MonoBehaviour
 {
     public float damage, projSpeed;
-    private bool isEnemy;
-    EntityStats enemy;
+    string enemy;
     private Vector3 shootDir;
     Rigidbody2D rigidbody;
-    // Start is called before the first frame update
+
+    public float getDamage(){
+            return this.damage;
+    }
+
     void Start()
     {
-        
-        //gameObject.tag = transform.root.tag;
+        if (this.transform.parent){
+        gameObject.tag = transform.parent.tag;
+        }
+        if (gameObject.tag.ToString() == "Player"){
+            gameObject.tag = "PlayerProj";
+            enemy = "Enemy";
+            if (gameObject.tag.ToString() == "Enemy"){
+                gameObject.tag = "EnemyProj";
+                enemy = "Player";
+            }
+        }
+
+        //destroy after some inactivity seconds
+        Destroy(gameObject,7f);
     }
 
     public void Setup(Vector3 shootDir) {
@@ -45,12 +60,11 @@ public class PlayerProjectileImpact : MonoBehaviour
 
     // Detect collision
     private void OnTriggerEnter2D(Collider2D collision){
-        if (collision.CompareTag("Enemy")){
-            Destroy(gameObject); //inflict damage
+        if (collision.CompareTag(enemy)){
+            Destroy(gameObject);
+            //inflict damage
             EntityStats enemy = collision.GetComponent<EntityStats>();
             enemy.Hit(damage);
         }
-        //destroy after some inactivity seconds
-        Destroy(gameObject,7f);
     }
 }

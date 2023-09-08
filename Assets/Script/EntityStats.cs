@@ -11,14 +11,15 @@ public class EntityStats : MonoBehaviour
     public float maxHealth, speed;
     //public GameObject ExplosionAnim;
     [SerializeField] private Transform bullet, shootPos, target; 
-    SliderController healthbar;
+    public SliderController healthbar;
     public float fireRate;
     public Rigidbody2D rigidbod;
 
     // Start is called before the first frame update
     void Start()
     {
-        SliderController healthbar = gameObject.GetComponentInChildren<SliderController>();
+        //SliderController healthbar = gameObject.GetComponentInChildren<SliderController>();
+        
         healthbar.MaxHealth = maxHealth;
         //rigidbod = GetComponent<Rigidbody2D>();
 
@@ -67,7 +68,7 @@ public class EntityStats : MonoBehaviour
         //istantiate bullet
         Transform proj = Instantiate(bullet, shootPos.position, shootPos.rotation);
         Vector3 direction = lookDir.normalized;
-        proj.GetComponent<PlayerProjectileImpact>().Setup(direction);
+        proj.GetComponent<ProjectileImpact>().Setup(direction);
     }
 
 }
