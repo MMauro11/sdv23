@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class EnemyProjectileImpact : MonoBehaviour {
 
-    private float damage = 1, projSpeed = 1;
+    public float damage, projSpeed;
     private bool isEnemy;
     EntityStats enemy;
     // Start is called before the first frame update

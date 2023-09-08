@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Sockets;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -7,35 +8,29 @@ using UnityEngine.UIElements;
 
 public class PlayerProjectileImpact : MonoBehaviour
 {
-    private float damage = 1, projSpeed = 1f;
+    public float damage, projSpeed;
     private bool isEnemy;
     EntityStats enemy;
     private Vector3 shootDir;
+    Rigidbody2D rigidbody;
     // Start is called before the first frame update
     void Start()
     {
-        gameObject.tag = transform.root.tag;
+        
+        //gameObject.tag = transform.root.tag;
     }
 
-    public void Setup(Vector3 direction) {
-        this.shootDir = direction;
+    public void Setup(Vector3 shootDir) {
+        this.shootDir = shootDir;
+
+        rigidbody = GetComponent<Rigidbody2D>();
+        rigidbody.velocity = shootDir * projSpeed;
     }
 
     // Update is called once per frame
     void Update()
     {
-             // Get the bullet's current position
-       // Vector2 position = transform.position;
-
-        // Compute the bullet's new position
-        //position = new Vector2(position.x, position.y + projSpeed * Time.deltaTime);
-
-        // Update the bullet's position
-        shootDir = new Vector3(shootDir.x, shootDir.y + projSpeed * Time.deltaTime);
-
-        // Update the bullet's position
-        transform.position = shootDir;
-
+        /*
         // Get the top-right point of the screen
         Vector2 max = Camera.main.ViewportToWorldPoint(new Vector2(1, 1));
 
@@ -44,6 +39,7 @@ public class PlayerProjectileImpact : MonoBehaviour
         {
             Destroy(gameObject);
         }
+     */
     }
 
 
@@ -54,6 +50,7 @@ public class PlayerProjectileImpact : MonoBehaviour
             EntityStats enemy = collision.GetComponent<EntityStats>();
             enemy.Hit(damage);
         }
-        Destroy(gameObject,5f);
+        //destroy after some inactivity seconds
+        Destroy(gameObject,7f);
     }
 }

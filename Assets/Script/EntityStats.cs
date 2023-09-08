@@ -3,22 +3,25 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting.Dependencies.Sqlite;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
+using static UnityEngine.GraphicsBuffer;
 
 public class EntityStats : MonoBehaviour
 {
-    public float health=1, speed=1;
+    public float maxHealth, speed;
     //public GameObject ExplosionAnim;
-    public GameObject bullet;
-    public Slider healthbar;
-    public float fireRate = 1;
-
+    [SerializeField] private Transform bullet, shootPos, target; 
+    SliderController healthbar;
+    public float fireRate;
+    public Rigidbody2D rigidbod;
 
     // Start is called before the first frame update
     void Start()
     {
-        Slider healthbar = gameObject.FindGameObjectWithTag("Health");
-        healthbar.highValue = health;
+        SliderController healthbar = gameObject.GetComponentInChildren<SliderController>();
+        healthbar.MaxHealth = maxHealth;
+        //rigidbod = GetComponent<Rigidbody2D>();
+
     }
 
     // Update is called once per frame
@@ -35,8 +38,8 @@ public class EntityStats : MonoBehaviour
     }
 
     public void Hit(float damage){
-        healthbar.value=healthbar.value-damage;
-        if (healthbar.value<=0){
+        healthbar.DecreaseSlider(damage);
+        if (healthbar.Score<=0){
             Death();
         }
     }
@@ -51,9 +54,19 @@ public class EntityStats : MonoBehaviour
     }
 
     void Shoot(){
-        GameObject target = GameObject.FindGameObjectWithTag("Enemy");
-        GameObject proj = Instantiate(bullet, transform.position,transform.rotation);
-        Vector3 direction = ((target.transform.position)-(proj.transform.position)).normalized;
+        //Rotate this entity rigidbody2d
+       
+        Vector2 lookDir = target.transform.position - shootPos.position;
+
+        //rotate rigidbody on target
+        float angle = 0;
+        Vector3 relative = transform.InverseTransformPoint(target.position);
+        angle = Mathf.Atan2(relative.x, relative.y) * Mathf.Rad2Deg;
+        transform.Rotate(0, 0, -angle);
+
+        //istantiate bullet
+        Transform proj = Instantiate(bullet, shootPos.position, shootPos.rotation);
+        Vector3 direction = lookDir.normalized;
         proj.GetComponent<PlayerProjectileImpact>().Setup(direction);
     }
 
