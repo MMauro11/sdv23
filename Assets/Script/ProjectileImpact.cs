@@ -11,24 +11,31 @@ public class ProjectileImpact : MonoBehaviour
     public float damage, projSpeed;
     string enemy;
     private Vector3 shootDir;
-    Rigidbody2D rigidbody;
+    Rigidbody2D rigidbod;
 
     public float getDamage(){
             return this.damage;
     }
 
+    public string Enemy
+    {
+        get
+        {
+            return this.enemy;
+        }
+        set
+        {
+            this.enemy = value;
+        }
+    }
+
     void Start()
     {
-        if (this.transform.parent){
-        gameObject.tag = transform.parent.tag;
-        }
-        if (gameObject.tag.ToString() == "Player"){
-            gameObject.tag = "PlayerProj";
+        if (gameObject.tag == "PlayerProj"){
             enemy = "Enemy";
-            if (gameObject.tag.ToString() == "Enemy"){
-                gameObject.tag = "EnemyProj";
-                enemy = "Player";
-            }
+        }
+        if (gameObject.tag == "EnemyProj"){
+            enemy = "Player";
         }
 
         //destroy after some inactivity seconds
@@ -38,8 +45,8 @@ public class ProjectileImpact : MonoBehaviour
     public void Setup(Vector3 shootDir) {
         this.shootDir = shootDir;
 
-        rigidbody = GetComponent<Rigidbody2D>();
-        rigidbody.velocity = shootDir * projSpeed;
+        rigidbod = GetComponent<Rigidbody2D>();
+        rigidbod.velocity = shootDir * projSpeed;
     }
 
     // Update is called once per frame

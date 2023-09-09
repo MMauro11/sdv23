@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using Unity.VisualScripting.Dependencies.Sqlite;
 using UnityEngine;
 using UnityEngine.UI;
@@ -31,22 +32,23 @@ public class EntityStats : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
 
-                // Play sound effect
-           // GetComponent<AudioSource>().Play();
-
-            InvokeRepeating(nameof(Shoot), 1f, fireRate);
+            // Play sound effect
+            // GetComponent<AudioSource>().Play();
+            if (!target.IsDestroyed()){
+                InvokeRepeating(nameof(Shoot), 1f, fireRate);
+            }
         }
     }
 
     public void Hit(float damage){
         healthbar.DecreaseSlider(damage);
-        if (healthbar.Score<=0){
+        if (healthbar.Score<1){
             Death();
         }
     }
 
     void Death(){
-        GameObject.Destroy(gameObject);
+        GameObject.Destroy(transform.parent.gameObject);
 
         //GameObject explosion = Instantiate(ExplosionAnim);
 
@@ -67,6 +69,18 @@ public class EntityStats : MonoBehaviour
 
         //istantiate bullet
         Transform proj = Instantiate(bullet, shootPos.position, shootPos.rotation);
+        ProjectileImpact projImp = proj.GetComponent<ProjectileImpact>();
+        //proj.tag = this.tag;
+        if (this.tag == "Player"){
+            proj.tag = "PlayerProj";
+            projImp.Enemy = "Enemy";
+            if (this.tag == "Enemy"){
+                proj.tag = "EnemyProj";
+                projImp.Enemy = "Player";
+
+            }
+        }
+
         Vector3 direction = lookDir.normalized;
         proj.GetComponent<ProjectileImpact>().Setup(direction);
     }

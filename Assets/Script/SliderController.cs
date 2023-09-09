@@ -8,18 +8,18 @@ public class SliderController : MonoBehaviour
 
     Slider scoreSlider;
 
-    float score, maxHealth;
+    float maxHealth;
     PlayerStatsText textUI;
 
     public float Score
     {
         get
         {
-            return this.score;
+            return this.scoreSlider.value;
         }
         set
         {
-            this.score = value;
+            this.scoreSlider.value = value;
             UpdateScoreSlider(value);
         }
     }
@@ -39,6 +39,7 @@ public class SliderController : MonoBehaviour
         }
         set{
             this.maxHealth = value;
+            scoreSlider.maxValue = maxHealth;
             UpdateScoreSlider(value);
         }
     }
